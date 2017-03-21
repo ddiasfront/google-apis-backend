@@ -1,0 +1,84 @@
+<html>
+<head>
+	<title></title>
+</head>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.9/jquery.mask.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+
+<script>
+   // Initialize Firebase
+ var config = {
+    apiKey: "AIzaSyAHrIDvcm4_gHq2eq0AqjMDUUN6iXKFa78",
+    authDomain: "deploy-vr.firebaseapp.com",
+    databaseURL: "https://deploy-vr.firebaseio.com",
+    storageBucket: "deploy-vr.appspot.com",
+    messagingSenderId: "1021709404655"
+  };
+
+  firebase.initializeApp(config);
+
+  var ref = firebase.database().ref();
+
+
+$(document).ready(function() {
+  
+ 
+   $("#nome_da_empresa").change(function() {
+
+      var empresValue = $(this).val();
+
+     if (empresValue === "") {
+       console.log('pac!')
+     } else {
+
+      console.log('Field Isnt Empty, Starting Firebase Functions')
+
+      var refEmpresas = firebase.database().ref('empresasTab').child('response').child('values');
+     
+      refEmpresas.on("child_added", function(snapshot) {
+          snapshot.forEach(function(childSnap){
+            var newPost = snapshot.val();
+            var herpes = childSnap.val();
+
+             if (herpes.indexOf(empresValue) >= 0) {
+                console.log(empresValue + ' Found');
+             }
+  
+          });
+      });
+     
+     }
+
+     
+    });
+
+  
+});
+
+</script>
+<body>
+
+<form>
+  <input id="nome_da_empresa">AQUI</input>
+  <input type="submit" class="btn btn-default" value="validate">
+</form>
+
+<div id="time"> </div>
+
+<script type="text/javascript">
+  $(function () {
+  $('form').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length === 0;
+    $('.bs-callout-info').toggleClass('hidden', !ok);
+    $('.bs-callout-warning').toggleClass('hidden', ok);
+  })
+  .on('form:submit', function() {
+    return false; // Don't submit form for this demo
+  });
+});
+</script>
+
+
+</body>
+</html>
