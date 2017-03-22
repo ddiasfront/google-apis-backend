@@ -1,0 +1,14 @@
+# Compiler outputs #
+*.a
+*.bat
+*.exe
+
+#files
+firebase_secret.json
+service_account.json
+
+# Directories #
+/node_modules
+
+
+# Packages #
